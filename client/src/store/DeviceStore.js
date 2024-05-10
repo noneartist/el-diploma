@@ -4,29 +4,14 @@ import {makeAutoObservable} from 'mobx'
 export default class DeviceStore {
     constructor() {
         //нижнее подчеркивание - обозночаем, что переменная изменяться не может
-        this._types = [
-            {id: 1, name: 'fridges'},
-            {id: 2, name: 'phones'},
-            {id: 3, name: 'notebooks'},
-            {id: 4, name: 'tv'}
-        ]
-        this._brands = [
-            {id: 1, name: 'Apple'},
-            {id: 2, name: 'Samsung'}
-        ]
-        this._devices = [
-            {id: '1', name: '15 pro', price: '1000', rating: '0', img: '729e0d27-cf82-4082-9db7-9e9f403b792b.jpg'},
-            {id: '2', name: 'Galaxy S24 Ultra', price: '1200', rating: '0', img: '9ea40381-059d-4d1c-b1d1-7a125f2f150f.jpg'},
-            {id: '3', name: 'Galaxy S23 Ultra', price: '1100', rating: '0', img: '97e72938-0a82-4cf2-8670-9615bed1c3b9.jpg'},
-            {id: '4', name: 'Galaxy S22', price: '900', rating: '0', img: '35c2bd68-763e-435c-b1e1-86f4d6083278.jpg.jpg'}
-
-        ]
-        this._selectedType = {
-
-        }
-        this._selectedBrand = {
-
-        }
+        this._types = []
+        this._brands = []
+        this._devices = []
+        this._selectedType = {}
+        this._selectedBrand = {}
+        this._page = 1
+        this._totalCount = 0
+        this._limit = 3
 
         makeAutoObservable(this)
     }
@@ -41,11 +26,22 @@ export default class DeviceStore {
         this._devices = devices
     }
     setSelectedType(type) {
+        this.setPage(1)
         this._selectedType = type
     }
     setSelectedBrand(brand) {
+        this.setPage(1)
         this._selectedBrand = brand
     }
+    setPage(page) {
+        this._page = page
+    }
+    setTotalCount(count) {
+        this._totalCount = count
+    }
+    setLimit(limit) {
+        this._limit = limit
+    }    
 
     get types() {
         return this._types
@@ -61,5 +57,14 @@ export default class DeviceStore {
     }
     get selectedBrand() {
         return this._selectedBrand
+    }
+    get page() {
+        return this._page
+    }
+    get totalCount() {
+        return this._totalCount
+    }
+    get limit() {
+        return this._limit
     }
 }
