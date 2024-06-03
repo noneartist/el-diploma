@@ -1,25 +1,34 @@
-// тут работаем с mobx
-import {makeAutoObservable} from 'mobx'
+import { makeAutoObservable } from 'mobx';
 
 export default class UserStore {
     constructor() {
-        //нижнее подчеркивание - обозночаем, что переменная изменяться не может
-        this._isAuth = false
-        this._user = {}
-        makeAutoObservable(this)
+        this._isAuth = false;
+        this._user = {};
+        this._basket = {};
+        makeAutoObservable(this);
     }
 
     setIsAuth(bool) {
-        this._isAuth = bool
+        this._isAuth = bool;
     }
+
     setUser(user) {
-        this._user = user
+        this._user = user;
+    }
+
+    setBasket(basket) {
+        this._basket = basket;
     }
 
     get isAuth() {
-        return this._isAuth
+        return this._isAuth;
     }
+
     get user() {
-        return this._user
+        return this._user;
+    }
+
+    get basket() {
+        return this._basket;
     }
 }
