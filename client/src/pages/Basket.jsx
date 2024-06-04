@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Container, Row, Col, Button, Card, Image } from 'react-bootstrap';
 import { observer } from 'mobx-react-lite';
-import { fetchBasket, removeFromBasket } from '../http/basketAPI';
+import { fetchBasket, removeFromBasket, checkoutBasket } from '../http/basketAPI';
 import { Context } from '../index';
 
 const Basket = observer(() => {
@@ -18,13 +18,23 @@ const Basket = observer(() => {
     });
   };
 
+  const handleCheckout = () => {
+    checkoutBasket().then(response => {
+      alert(response.message);
+      setBasketDevices([]); // Очистка отображаемой корзины после успешной оплаты
+    }).catch(error => {
+      console.error(error);
+      alert('Payment failed');
+    });
+  };
+
   return (
     <Container className='mt-3'>
       <Row>
         <Col md={12}>
-          <h1>Cart</h1>
+          <h1 className='p-3'>Cart</h1>
           {basketDevices && basketDevices.map(({ id, device }) => (
-            <Card key={id} className='mb-3'>
+            <Card key={id} className='mb-3 d-flex'>
               <Card.Body>
                 <Row>
                   <Col md={4}>
@@ -41,6 +51,11 @@ const Basket = observer(() => {
               </Card.Body>
             </Card>
           ))}
+          {basketDevices.length > 0 && (
+            <Button 
+              className='m-2'
+              variant='success' onClick={handleCheckout}>Pay</Button>
+          )}
         </Col>
       </Row>
     </Container>
